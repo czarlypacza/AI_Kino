@@ -14,7 +14,7 @@
 <body>
     @include('shared/nav')
 
-    <div class="row mt-5">
+    <div class="row mt-5 w-100">
         <div class="col col-11 mt-5 mx-auto">
             <h3>Szczegóły seansu</h3>
             <div class="card mb-3" >
@@ -24,7 +24,7 @@
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
-                      <h4 class="card-title">{{$showtime->show->movie->title}}</h5>
+                      <h4 class="card-title">{{$showtime->show->movie->title}}</h4>
                       <p class="card-text">{{$showtime->show->movie->description}}</p>
                       <div class="row">
                         <div class="col col-6">
@@ -43,23 +43,87 @@
                         <div class="col col-6">
                             <p>Gatunek: @foreach ($showtime->show->movie->genre as $genre)
                                 {{$genre->name}},
-                            @endforeach</p>{{--  TODO: zrobic tabele gatunkow i wyswietlanie do odpowiednich filmow kilku gatunkow --}}
+                            @endforeach</p>
                         </div>
                       </div>
                       <div class="row">
                           <div class="col col-6">
                             <p>Data: {{$showtime->show->date}}</p>
                           </div>
-                          <div class="col col-6">
-                            <p>Godzina: {{ \Carbon\Carbon::parse($showtime->time)->format('H:i') }}</p>
-                          </div>
+
+
+                          @can('is-admin')
+                              <div class="col col-3">
+                                  <p>Godzina: {{ \Carbon\Carbon::parse($showtime->time)->format('H:i') }}</p>
+                              </div>
+                              <div class="col col-3">
+                                  <p>Sala: {{$showtime->room->id}}</p>
+                              </div>
+                          @else
+                              <div class="col col-6">
+                                  <p>Godzina: {{ \Carbon\Carbon::parse($showtime->time)->format('H:i') }}</p>
+                              </div>
+                          @endcan
                       </div>
                       <div class="row">
                         {{-- <button class="btn btn-info btn-lg" onclick="{{route('room.show',['room'=>$showtime->room,'showtime'=>$showtime])}}">Wybierz miejsca</button> --}}
-                        <form action="{{ route('room.show', ['room'=>$showtime->room, 'showtime' => $showtime]) }}" method="get">
-                            <button class="btn btn-info btn-lg" type="submit">Wybierz miejsca</button>
-                        </form>
-                    </div>
+
+                          <div class="col col-6">
+                              <form
+                                  action="{{ route('room.show', ['room'=>$showtime->room, 'showtime' => $showtime]) }}"
+                                  method="get">
+                                  <button class="btn btn-info btn-lg " type="submit">Wybierz miejsca</button>
+                              </form>
+                          </div>
+
+                          @can('is-admin')
+                          <div class="col col-3" >
+                              <a data-bs-toggle="modal" data-bs-target="#showtimesADD"
+                                               class="btn btn-success btn-lg ">Edytuj</a>
+                              <div class="modal fade" id="showtimesADD" tabindex="-1" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                      <div class="modal-content">
+                                          <form method="POST" action="{{ route('showtimes.update',[$showtime]) }}">
+                                              @csrf
+                                              @method('PUT')
+                                              <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel">Dodaj godzine</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                              </div>
+                                              <div class="modal-body d-flex align-items-center justify-content-evenly">
+                                                  <input type="hidden" name="show_id" value="{{$showtime->show->id}}" class="form-control" id="show_id" >
+                                                  <div class="form-group mb-2 me-2">
+                                                      <label for="time">Wybierz godzine:</label>
+                                                      <input type="time" id="time" name="time" class="form-control">
+                                                  </div>
+                                                  <div class="form-group mb-2 me-2">
+                                                      <label for="room_id">Wybierz sale:</label>
+                                                      <select id="room_id" name="room_id" type="select" class="form-select ">
+                                                          @foreach($rooms as $room)
+                                                              <option value="{{$room->id}}">Pokój nr: {{$room->id}}</option>
+                                                          @endforeach
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                              <div class="modal-footer">
+                                                  <button type="submit" class="btn btn-primary" >Zapisz</button>
+                                              </div>
+                                          </form>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col col-3">
+                              <form method="POST" action="{{ route('showtimes.destroy',[$showtime]) }}">
+                              @csrf
+                              @method('DELETE')
+                              <button class="btn btn-danger btn-lg " type="submit" >Usuń</button>
+
+                              </form>
+                          </div>
+                          @endcan
+                        </div>
                     </div>
                   </div>
                 </div>

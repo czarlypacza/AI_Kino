@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Showtime;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\Room;
 
 class ShowtimeController extends Controller
 {
@@ -29,7 +31,13 @@ class ShowtimeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $time = Carbon::parse($request->time);
+        Showtime::create([
+            'time' => $time,
+            'room_id' => $request->room_id,
+            'show_id' => $request->show_id,
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -39,7 +47,7 @@ class ShowtimeController extends Controller
     {
         //$showtime = Showtime::findOrFail($id);
 
-        return view('showtime/show',['showtime' => $showtime, 'recommended1' => Movie::all()->random(3),'genres'=>$showtime->show->movie->genres]);
+        return view('showtime/show',['rooms'=>Room::all(),'showtime' => $showtime, 'recommended1' => Movie::all()->random(3),'genres'=>$showtime->show->movie->genres]);
     }
 
 
@@ -56,7 +64,13 @@ class ShowtimeController extends Controller
      */
     public function update(Request $request, Showtime $showtime)
     {
-        //
+        $time = Carbon::parse($request->time);
+        $showtime->update([
+            'time' => $time,
+            'room_id' => $request->room_id,
+            'show_id' => $request->show_id,
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -64,6 +78,7 @@ class ShowtimeController extends Controller
      */
     public function destroy(Showtime $showtime)
     {
-        //
+        $showtime->delete();
+        return redirect()->route('shows.index');
     }
 }

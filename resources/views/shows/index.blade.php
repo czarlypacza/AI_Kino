@@ -19,7 +19,6 @@
 
 <body>
     @include('shared/nav')
-
     <div class="row w-100 mt-5">
         <div class="col-11 mt-5 mx-auto">
             <span class="fs-3 fw-bolder ">Repertuar</span>
@@ -52,30 +51,59 @@
                                 @php
                                     $showTimes = Showtime::where('show_id', $show->id)->get();
                                 @endphp
-
                                 @foreach ($showtimes as $showtime)
                                     @if ($showtime->show_id===$show->id)
-                                    <a class='btn btn-primary btn-sm m-1' method='get' href='/showtimes/{{$showtime->id}}'> {{$showtime->time}} </a>
+                                        <a class='btn btn-primary btn-sm m-1' href='/showtimes/{{$showtime->id}}'> {{$showtime->time}} </a>
                                     @endif
                                 @endforeach
                                 @can('is-admin')
-                                    <a href="{{route('showtimes.create', ['show'=>$show->id,'date'=> $date])}}" class="btn btn-info btn-sm m-1">+</a>
+                                    <a data-bs-toggle="modal" data-bs-target="#showtimesADD{{$show->id}}"  class="btn btn-info btn-sm m-1">+</a>
+                                    <div class="modal fade" id="showtimesADD{{$show->id}}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form method="POST" action="{{ route('showtimes.store') }}" class="">
+                                                    @csrf
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Dodaj godzine</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body d-flex align-items-center justify-content-evenly">
+                                                        <input type="hidden" name="show_id" value="{{$show->id}}" class="form-control" id="show_id" >
+                                                        <div class="form-group mb-2 me-2">
+                                                            <label for="time">Wybierz godzine:</label>
+                                                            <input type="time" id="time" name="time" class="form-control">
+                                                        </div>
+                                                        <div class="form-group mb-2 me-2">
+                                                            <label for="room_id">Wybierz sale:</label>
+                                                            <select id="room_id" name="room_id" type="select" class="form-select ">
+                                                                @foreach($rooms as $room)
+                                                                    <option value="{{$room->id}}">Pokój nr: {{$room->id}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+
+                                                        <button type="submit" class="btn btn-primary" >Zapisz</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endcan
                             </td>
                             @can('is-admin')
                                 <td>
                                     <a href="{{route('shows.edit', ['show'=>$show->id,'date'=> $date])}}" class="btn btn-success btn-sm m-1">Edycja</a>
-
                                 </td>
                                 <td><form method="POST" action="{{ route('shows.destroy', $show->id) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <input type="submit" value="Usuń" class="btn btn-danger btn-sm m-1"></button>
+                                    <input type="submit" value="Usuń" class="btn btn-danger btn-sm m-1">
                                 </form></td>
                             @endcan
                         </tr>
                     @endforeach
-
                     @can('is-admin')
                     @if (count($movies)!=count($shows))
                         <tr>
@@ -84,16 +112,6 @@
                                     @csrf
                                     <div class="form-group mb-2 flex-grow-1 me-2">
                                         <select id="movie_id" name="movie_id" type="select" class="form-select ">
-                                            {{-- @foreach ($movies as $movie)
-                                                    @if ($movie->id===$show->movie->id)
-                                                        @php
-                                                            continue;
-                                                        @endphp
-                                                    @else
-                                                        <option value="{{$movie->id}}">{{$movie->title}}</option>
-                                                    @endif
-                                            @endforeach --}}
-
                                             @foreach ($movies as $movie)
                                             @php
                                                 $var = true;
@@ -110,9 +128,6 @@
                                                 @endif
                                             @endforeach
                                         </select>
-
-
-
                                     </div>
                                     <input class="btn btn-secondary btn-sm" type="submit" value="Dodaj">
                                     <div class="input-group date " hidden>
@@ -120,17 +135,14 @@
                                             aria-label="Select date" aria-describedby="datepicker" onchange="getMovieShowtimes()"
                                             value="{{ $date }}" />
                                     </div>
-
                                 </form>
                             </td>
-
-
                         </tr>
                         @endif
                     @endcan
-
                 </tbody>
             </table>
+
         </div>
     </div>
 
@@ -151,9 +163,9 @@
 
             // Define the function to be called when the response is received
             xhr.onreadystatechange = function() {
-                if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
                     // Handle the response
-                    if (xhr.status == 200) {
+                    if (xhr.status === 200) {
                         // Replace the contents of the tbody with the new shows data
                         var tbody = document.querySelector("table.table tbody");
                         tbody.innerHTML = xhr.responseText;

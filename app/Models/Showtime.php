@@ -9,7 +9,7 @@ class Showtime extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['time','room_id' ,'movie_id'];
+    protected $fillable = ['time','room_id' ,'show_id'];
 
     public function room(){
         return $this->belongsTo(Room::class);
