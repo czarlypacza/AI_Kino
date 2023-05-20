@@ -6,6 +6,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\ShowtimeController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Show;
 use App\Models\Showtime;
@@ -49,6 +50,8 @@ Route::resource('shows',ShowController::class);
 Route::get('shows/{show}/{date}/edit', [ShowController::class, 'edit'])->name('shows.edit');
 
 Route::resource('showtimes',ShowtimeController::class);
+
+Route::resource('movies', MovieController::class);
 
 Route::get('/room/{room}/{showtime}',[RoomController::class,'show'])->name('room.show');
 

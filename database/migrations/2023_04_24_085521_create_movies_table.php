@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('actors');
             $table->integer('duration');
             $table->float('score');
-            $table->integer('genre_id');
             $table->timestamps();
         });
     }

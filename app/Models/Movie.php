@@ -10,7 +10,7 @@ class Movie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'image','director','actors','duration','score','genre'];
+    protected $fillable = ['title', 'description', 'image','director','actors','duration','score'];
 
     public function show(){
         return $this->hasMany(Show::class);

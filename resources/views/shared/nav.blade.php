@@ -13,7 +13,13 @@
                 <li class="nav-item">
                     <a href="#Login" class="nav-link text-white">Oferty</a>
                 </li>
+                @can('is-admin')
+                    <li class="nav-item">
+                        <a href="{{route('movies.index')}}" class="nav-link text-white">Filmy</a>
+                    </li>
+                @endcan
                 @if (Auth::check())
+
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('logout') }}">{{ Auth::user()->name }}, wyloguj się... </a>
                     </li>

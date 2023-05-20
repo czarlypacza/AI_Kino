@@ -174,7 +174,6 @@
                     }
                 }
             };
-            console.warn("aaaaa");
 
             // Send the request to the server
             var url = "{{ route('getMovieShowtimes', ['date' => ':date']) }}";

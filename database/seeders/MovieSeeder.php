@@ -28,7 +28,6 @@ class MovieSeeder extends Seeder
                     'actors'=>'Robert Downey Jr., Chris Evans, Mark Ruffalo',
                     'duration'=>'120',
                     'score'=>'8.5',
-                    'genre_id'=>'1',
                 ],
                 [
                     'title' => 'Suzume',
@@ -38,7 +37,6 @@ class MovieSeeder extends Seeder
                     'actors'=> 'Nanoka Hara, Hokuto Matsumura, Eri Fukatsu',
                     'duration'=> '122',
                     'score'=> '9',
-                    'genre_id'=> '2',
                 ],
                 [
                     'title' => 'John Wick 4',
@@ -48,7 +46,6 @@ class MovieSeeder extends Seeder
                     'actors'=>'Keanu Reeves, Donnie Yen, Bill Skarsgard',
                     'duration'=>'169',
                     'score'=>'8',
-                    'genre_id'=>'1',
                 ],
                 [
                     'title' => 'Asteriks i Obelisk:Imperium smoka',
@@ -58,7 +55,6 @@ class MovieSeeder extends Seeder
                     'actors'=>'Marion Cotillard, Franck Gastambide, Vincent Cassel',
                     'duration'=>'111',
                     'score'=>'7',
-                    'genre_id'=>'3',
                 ],
                 [
                     'title' => 'Pulp fiction',
@@ -68,8 +64,9 @@ class MovieSeeder extends Seeder
                     'actors'=>'John Travolta, Uma Thurman, Samuel L. Jackson',
                     'duration'=>'154',
                     'score'=>'9',
-                    'genre_id'=>'4',
+
                 ]
+
 
             ]
         );
