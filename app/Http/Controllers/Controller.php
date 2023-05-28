@@ -20,41 +20,36 @@ class Controller extends BaseController
     {
         return  view('index\index', ['movies' => Movie::all(), 'shows' => Show::where('date',now()->format('Y-m-d'))->get(), 'showtimes' => Showtime::orderBy('show_id')->orderBy('time')->get(), 'date' => now()->format('Y-m-d'), 'recommended1' => Movie::all()->random(3)]);
     }
-    // public function getMovieShowtimes($date)
-    // {
-    //     $shows = Show::where('date', $date)->get();
+     public function getMovieShowtimes($date)
+     {
+         $shows = Show::where('date', $date)->get();
 
-    //     $html = "";
-    //     // foreach ($shows as $show) {
-    //     //     $html .= "<tr>";
-    //     //     $html .= "<td>" . $show->movie->title . "</td>";
-    //     //     $html .= "<td>" . $show->date . "</td>";
-    //     //     $html .= "</tr>";
-    //     // }
-    //     foreach ($shows as $show) {
-    //         $showtimes = Showtime::where('show_id', $show->id)->get();
-    //         $showT = '';
-    //         foreach ($showtimes as $showtime) {
-    //             $showT .= "<a class='btn btn-primary btn-sm m-1' method='get' href='/showtimes/".$showtime->id."'>" . $showtime->time . "</a>";
-    //         }
-    //        //$html .= "<tr><td>" . Movie::find($show->movie_id)->title . "</td><td>" . $showT . "</td></tr>";
-    //        $html .= "<tr>";
-    //         $html .= "<td>" . Movie::find($show->movie_id)->title . "</td>";
-    //         $html .= "<td>" . $showT . "</td>";
+         $html = "";
+         // foreach ($shows as $show) {
+         //     $html .= "<tr>";
+         //     $html .= "<td>" . $show->movie->title . "</td>";
+         //     $html .= "<td>" . $show->date . "</td>";
+         //     $html .= "</tr>";
+         // }
+         foreach ($shows as $show) {
+             $showtimes = Showtime::where('show_id', $show->id)->get();
+             $showT = '';
+             foreach ($showtimes as $showtime) {
+                 $showT .= "<a class='btn btn-primary btn-sm m-1' method='get' href='/showtimes/".$showtime->id."'>" . $showtime->time . "</a>";
+             }
+            //$html .= "<tr><td>" . Movie::find($show->movie_id)->title . "</td><td>" . $showT . "</td></tr>";
+            $html .= "<tr>";
+             $html .= "<td class='col-5'>" . Movie::find($show->movie_id)->title . "</td>";
+             $html .= "<td class='col-6'>" . $showT . "</td>";
+             $html .= "</tr>";
+         }
+         return $html;
 
-    //         if (Gate::allows('is-admin')) {
-    //             $html .= "<td><a href='" . route('shows.edit', [$show->id, $date]). "' class='btn btn-success btn-sm m-1'>Edycja</a></td>";
-    //         }
-
-    //         $html .= "</tr>";
-    //     }
-    //     return $html;
-
-    //     //return "<tr><td>".$date."</td><td></td></tr>";
-    //     // return  view('guest\index',['movies'=>Movie::all(),'shows'=>Show::all(),'date'=>$date,'recommended1'=>Movie::all()->random(3)]);
-    // }
-    public function getMovieShowtimes($date)
-{
+         //return "<tr><td>".$date."</td><td></td></tr>";
+         // return  view('guest\index',['movies'=>Movie::all(),'shows'=>Show::all(),'date'=>$date,'recommended1'=>Movie::all()->random(3)]);
+     }
+    public function getMovieShowtimesShow($date)
+    {
     $shows = Show::where('date', $date)->get();
 
     $html = '';

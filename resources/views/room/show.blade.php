@@ -11,13 +11,14 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    @vite([ 'resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
 </head>
 
 <body>
-    @include('shared/nav')
+@include('layouts.navigation')
 
-    <div class="row mt-5">
-        <div class="col col-11 mx-auto mt-5">
+    <div class="row mt-3">
+        <div class="col col-11 mx-auto mt-3">
             <h4>Dostępne miejsca</h4>
             <table class="table">
                 @for ($i = 1; $i <= $room->rows; $i++)
@@ -184,6 +185,9 @@
                     formData.append('seat', col);
                     formData.append('price', price);
                     formData.append('showtime_id', showtime_id);
+                    formData.append('user_id', "{{ Auth::user()->id }}");
+
+                    console.warn('aaaa');
 
                     var request = new XMLHttpRequest();
                     request.open('POST', "{{ route('tickets.store') }}");

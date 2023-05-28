@@ -10,12 +10,14 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    @vite([ 'resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
 </head>
-<body>
-    @include('shared/nav')
 
-    <div class="row mt-5 w-100">
-        <div class="col col-11 mt-5 mx-auto">
+<body>
+@include('layouts.navigation')
+
+    <div class="row mt-3 w-100">
+        <div class="col col-11 mt-3 mx-auto">
             <h3>Szczegóły seansu</h3>
             <div class="card mb-3" >
                 <div class="row g-0">

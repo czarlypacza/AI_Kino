@@ -15,12 +15,17 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    @vite([ 'resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
+
 </head>
 
-<body>
-    @include('shared/nav')
-    <div class="row w-100 mt-5">
-        <div class="col-11 mt-5 mx-auto">
+<body class="font-sans antialiased">
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+
+@include('layouts.navigation')
+
+    <div class="row w-100 mt-3">
+        <div class="col-11 mt-3 mx-auto">
             <span class="fs-3 fw-bolder ">Repertuar</span>
             <div class="input-group date mt-3">
                 <input type="date" class="form-control" id="datepicker" placeholder="Select date"
@@ -176,13 +181,13 @@
             };
 
             // Send the request to the server
-            var url = "{{ route('getMovieShowtimes', ['date' => ':date']) }}";
+            var url = "{{ route('getMovieShowtimesShow', ['date' => ':date']) }}";
             url = url.replace(':date', selectedDate);
             xhr.open("GET", url, true);
             xhr.send();
         }
     </script>
-
+</div>
 </body>
 
 </html>

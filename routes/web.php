@@ -7,11 +7,13 @@ use App\Http\Controllers\ShowController;
 use App\Http\Controllers\ShowtimeController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Show;
 use App\Models\Showtime;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +46,7 @@ Route::get('/', function () {
 //     //return $shows;
 // })->name('getMovieShowtimes');
 
+Route::get('/getMovieShowtimesShow/{date}',[Controller::class,'getMovieShowtimesShow'])->name('getMovieShowtimesShow');
 Route::get('/getMovieShowtimes/{date}',[Controller::class,'getMovieShowtimes'])->name('getMovieShowtimes');
 
 Route::resource('shows',ShowController::class);
@@ -53,16 +56,19 @@ Route::resource('showtimes',ShowtimeController::class);
 
 Route::resource('movies', MovieController::class);
 
+Route::resource('rooms',RoomController::class)->except('show');
+
 Route::get('/room/{room}/{showtime}',[RoomController::class,'show'])->name('room.show');
 
-Route::post('/ticket',[TicketController::class,'store'])->name('tickets.store');
+//Route::post('/ticket',[TicketController::class,'store'])->name('tickets.store');
+
+Route::resource('tickets',TicketController::class);
 
 //Route::get('/showtime/{id}',[ShowtimeController::class,'show']);
 
+Route::resource('users', UserController::class);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[DashboardController::class,'index'] )->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

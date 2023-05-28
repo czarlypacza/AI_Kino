@@ -10,13 +10,14 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    @vite([ 'resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
 </head>
 <body>
-@include('shared/nav')
+@include('layouts.navigation')
 
-<div class="row w-100 mt-5">
-    <div class="col-11 mt-5 mx-auto">
-        <h3>Filmy</h3>
+<div class="row w-100 mt-3">
+    <div class="col-11 mt-3 mx-auto">
+        <h3 class="fs-1 fw-bolder">Filmy</h3>
         {{--        <table class="table table-striped mt-4">--}}
         {{--            <thead>--}}
         {{--                <tr>--}}
@@ -33,6 +34,7 @@
         {{--                </tr>--}}
         {{--            </thead>--}}
         {{--        </table>--}}
+
         <div class="accordion accordion-flush" id="accordionMovies">
             @foreach($movies as $movie)
                 <div class="accordion-item">
@@ -92,7 +94,7 @@
                                                                     @method('PUT')
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="exampleModalLabel">
-                                                                            Dodaj film</h5>
+                                                                            Edytuj film</h5>
                                                                         <button type="button" class="btn-close"
                                                                                 data-bs-dismiss="modal"
                                                                                 aria-label="Close"></button>
@@ -190,7 +192,7 @@
                 </div>
             @endforeach
 
-        </div>
+        </div>`
 
     </div>
 </div>
@@ -267,7 +269,7 @@
 
 
 @include('shared\footer')
-<script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
+{{--<script src="{{ asset('js/bootstrap.bundle.js') }}"></script>--}}
 
 </body>
 </html>

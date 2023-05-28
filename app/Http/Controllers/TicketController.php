@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Movie;
 use App\Models\Show;
 use App\Models\Showtime;
@@ -17,7 +18,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        return view('tickets.index', ['tickets'=>Ticket::paginate(15)]);
     }
 
     /**

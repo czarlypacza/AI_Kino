@@ -1,3 +1,12 @@
+.collapse:not(.show) {
+    display: none;
+    visibility: collapse;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.collapse {
+    visibility: visible;
+}
+

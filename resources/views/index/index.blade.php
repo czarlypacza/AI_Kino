@@ -3,7 +3,7 @@
 @endphp
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
 <head>
     <meta charset="UTF-8">
@@ -15,12 +15,12 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    @vite([ 'resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
+
 </head>
 
 <body>
-    @include('shared/nav')
-
-
+    @include('layouts.navigation')
 
     @include('shared/carousel')
 
@@ -41,16 +41,16 @@
             <table class="table table-striped mt-4">
                 <thead>
                     <tr>
-                        <th>Filmy</th>
-                        <th>Godziny</th>
+                        <th class='w1/4'>Filmy</th>
+                        <th class='w3/4'>Godziny</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @foreach ($shows as $show)
                         <tr>
-                            <td>{{ $show->movie->title }}</td>
-                            <td>
+                            <td class='col-5'>{{ $show->movie->title }}</td>
+                            <td class='col-6'>
                                 @php
                                     $showTimes = Showtime::where('show_id', $show->id)->get();
                                 @endphp

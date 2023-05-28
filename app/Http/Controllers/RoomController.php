@@ -15,7 +15,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        return view('room.index', ['rooms' => Room::all()]);
     }
 
     /**
@@ -31,8 +31,15 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'rows' => 'required|integer|min:1|max:25',
+            'cols' => 'required|integer|min:1|max:25',
+        ]);
+
+        Room::create($request->all());
+        return redirect()->route('rooms.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -61,7 +68,12 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        //
+        $request->validate([
+            'rows' => 'required|integer|min:1|max:25',
+            'cols' => 'required|integer|min:1|max:25',
+        ]);
+        $room->update($request->all());
+        return redirect()->route('rooms.index');
     }
 
     /**
@@ -69,6 +81,7 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        //
+        $room->delete();
+        return redirect()->route('rooms.index');
     }
 }

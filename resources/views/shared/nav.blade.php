@@ -17,6 +17,12 @@
                     <li class="nav-item">
                         <a href="{{route('movies.index')}}" class="nav-link text-white">Filmy</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{route('rooms.index')}}" class="nav-link text-white">Sale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('tickets.index')}}" class="nav-link text-white">Bilety</a>
+                    </li>
                 @endcan
                 @if (Auth::check())
 
