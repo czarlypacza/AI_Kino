@@ -20,7 +20,7 @@
 </head>
 
 <body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+<div class="min-h-screen bg-gray-100 dark:bg-gray-300">
 
 @include('layouts.navigation')
 
@@ -61,6 +61,8 @@
                                         <a class='btn btn-primary btn-sm m-1' href='/showtimes/{{$showtime->id}}'> {{$showtime->time}} </a>
                                     @endif
                                 @endforeach
+
+                                <!--add showtime button-->
                                 @can('is-admin')
                                     <a data-bs-toggle="modal" data-bs-target="#showtimesADD{{$show->id}}"  class="btn btn-info btn-sm m-1">+</a>
                                     <div class="modal fade" id="showtimesADD{{$show->id}}" tabindex="-1" aria-hidden="true">
@@ -76,7 +78,7 @@
                                                         <input type="hidden" name="show_id" value="{{$show->id}}" class="form-control" id="show_id" >
                                                         <div class="form-group mb-2 me-2">
                                                             <label for="time">Wybierz godzine:</label>
-                                                            <input type="time" id="time" name="time" class="form-control">
+                                                            <input type="time" id="time" name="time" value="09:00" min="09:00" max="20:00" class="form-control">
                                                         </div>
                                                         <div class="form-group mb-2 me-2">
                                                             <label for="room_id">Wybierz sale:</label>
@@ -84,6 +86,7 @@
                                                                 @foreach($rooms as $room)
                                                                     <option value="{{$room->id}}">Pokój nr: {{$room->id}}</option>
                                                                 @endforeach
+                                                                    <!--TODO: zaprogramowac validacje nid moznosc dodania sali juz zajetej o danej godzinie-->
                                                             </select>
                                                         </div>
                                                     </div>
@@ -96,6 +99,7 @@
                                         </div>
                                     </div>
                                 @endcan
+
                             </td>
                             @can('is-admin')
                                 <td>
@@ -157,6 +161,17 @@
 
 
     <script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date();
+            var day = ("0" + today.getDate()).slice(-2);  // ensure two digits
+            var month = ("0" + (today.getMonth() + 1)).slice(-2);  // ensure two digits, January is 0 in JavaScript
+            var year = today.getFullYear();
+
+            var todayFormatted = year + '-' + month + '-' + day;
+            document.getElementById("datepicker").min = todayFormatted;
+        });
+    </script>
     <script>
         function getMovieShowtimes() {
             // Get the selected date from the datepicker input

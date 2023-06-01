@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,6 +22,6 @@ class DashboardController extends Controller
                 });
         })->get();
 
-        return view('dashboard', ['showtimes' => $showtimes,'users'=>User::paginate(15)]);
+        return view('dashboard', ['showtimes' => $showtimes,'users'=>User::paginate(15),'roles'=>Role::all()]);
     }
 }

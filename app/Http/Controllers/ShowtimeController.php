@@ -31,6 +31,10 @@ class ShowtimeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'time' => 'required|date_format:H:i',
+        ]);
+
         $time = Carbon::parse($request->time);
         Showtime::create([
             'time' => $time,

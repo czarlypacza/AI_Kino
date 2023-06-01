@@ -164,19 +164,28 @@
         }
 
         function createTickets() {
+            var showDate = new Date("{{ $showtime->show->date }}");
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);  // Ensure that we're comparing dates only, not times
+            var daysAhead = Math.floor((showDate - today) / (1000 * 60 * 60 * 24));
+
+            // Calculate the discount percentage: 5% per day, max 20%
+            var discountPercentage = Math.min(daysAhead * 5, 20);
+
             selectedSeats.forEach(function(seat) {
                 var row = seat.row;
                 var col = seat.col;
                 var ticketTypeSelect = document.querySelector('#ticketType-' + row + '-' + col);
                 var ticketType = ticketTypeSelect.value;
-                var price = 0; // Set the initial price to 0
-
+                var price = 0;
                 // Assign the price based on the ticket type
                 if (ticketType === 'normalny') {
                     price = 10;
                 } else if (ticketType === 'ulgowy') {
                     price = 5;
                 }
+
+                price = price * (1 - discountPercentage / 100);
 
                     var showtime_id = "{{ $showtime->id }}";
 
@@ -185,7 +194,12 @@
                     formData.append('seat', col);
                     formData.append('price', price);
                     formData.append('showtime_id', showtime_id);
+                    @if(Auth::user())//TODO: zdecydowac czy kupowanie biletu bedzie tylko dla zalogowanych uzytkowników
                     formData.append('user_id', "{{ Auth::user()->id }}");
+                    @else
+
+                    @endif
+
 
                     console.warn('aaaa');
 

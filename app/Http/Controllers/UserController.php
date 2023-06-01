@@ -30,7 +30,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'role_id' => 'required',
+            ]);
+        User::create(
+            [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role_id' => $request->role_id
+            ]
+        );
+        return redirect()->back()->with('status', 'User created successfully!');
+
     }
 
     /**

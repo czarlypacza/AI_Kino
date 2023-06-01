@@ -76,20 +76,26 @@
 
     <script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date();
+            var day = ("0" + today.getDate()).slice(-2);  // ensure two digits
+            var month = ("0" + (today.getMonth() + 1)).slice(-2);  // ensure two digits, January is 0 in JavaScript
+            var year = today.getFullYear();
+
+            var todayFormatted = year + '-' + month + '-' + day;
+            document.getElementById("datepicker").min = todayFormatted;
+        });
+    </script>
+
+    <script>
         function getMovieShowtimes() {
-            // Get the selected date from the datepicker input
             var selectedDate = document.getElementById("datepicker").value;
 
-
-            // Create a new XMLHttpRequest object
             var xhr = new XMLHttpRequest();
 
-            // Define the function to be called when the response is received
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                    // Handle the response
                     if (xhr.status == 200) {
-                        // Replace the contents of the tbody with the new shows data
                         var tbody = document.querySelector("table.table tbody");
                         tbody.innerHTML = xhr.responseText;
                     } else {
@@ -99,7 +105,6 @@
             };
             console.warn("aaaaa");
 
-            // Send the request to the server
             var url = "{{ route('getMovieShowtimes', ['date' => ':date']) }}";
             url = url.replace(':date', selectedDate);
             xhr.open("GET", url, true);
