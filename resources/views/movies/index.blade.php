@@ -34,7 +34,15 @@
         {{--                </tr>--}}
         {{--            </thead>--}}
         {{--        </table>--}}
-
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="accordion accordion-flush" id="accordionMovies">
             @foreach($movies as $movie)
                 <div class="accordion-item">
@@ -192,7 +200,7 @@
                 </div>
             @endforeach
 
-        </div>`
+        </div>
 
     </div>
 </div>

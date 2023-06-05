@@ -17,6 +17,15 @@
     <br>
     <div class="container mt-5 mb-5">
         <div class="row mt-5 text-center"><h2>Edytuj seans</h2></div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row ">
             <div class="col col-10 mx-auto">
                 <form method="POST" action="{{route('shows.update',$show->id)}}">

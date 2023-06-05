@@ -19,6 +19,15 @@
     <div class="row mt-3 w-100">
         <div class="col col-11 mt-3 mx-auto">
             <h3>Szczegóły seansu</h3>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card mb-3" >
                 <div class="row g-0">
                   <div class="col-md-4">

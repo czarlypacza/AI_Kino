@@ -19,7 +19,15 @@
 <div class="row w-100 mt-3">
     <div class="col-11 mt-3 mx-auto">
         <h3>Sale</h3>
-
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="accordion accordion-flush" id="accordionMovies">
             @foreach($rooms as $room)
                 <div class="accordion-item">
@@ -92,18 +100,18 @@
                                     </form>
                                 </div>
                             </div>
-                            <h5>Najblizsze seanse</h5>
-                            <div class="row mt-3 d-flex justify-content-around">
+{{--                            <h5>Najblizsze seanse</h5>--}}
+{{--                            <div class="row mt-3 d-flex justify-content-around">--}}
 
-                                @php
-                                    $data = \Illuminate\Support\Facades\DB::select('CALL GetShowsAfterToday(?);',[$room->id]);
-                                @endphp
+{{--                                @php--}}
+{{--                                    $data = \Illuminate\Support\Facades\DB::select('CALL GetShowsAfterToday(?);',[$room->id]);--}}
+{{--                                @endphp--}}
 
-                            @foreach($data as $show)
-                                    <div class="col-2 text-center rounded" style="border: 2px solid black; background-color: #ddd;">{{ $show->date }} {{ $show->time }}</div>
+{{--                            @foreach($data as $show)--}}
+{{--                                    <div class="col-2 text-center rounded" style="border: 2px solid black; background-color: #ddd;">{{ $show->date }} {{ $show->time }}</div>--}}
 
-                                @endforeach
-                            </div>
+{{--                                @endforeach--}}
+{{--                            </div>--}}
 
                         </div>
                     </div>

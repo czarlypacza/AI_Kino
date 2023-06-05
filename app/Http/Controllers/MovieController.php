@@ -29,20 +29,18 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
-//        $request->validate([
-//            'title' => 'required',
-//            'description' => 'required',
-//            'image' => 'required',
-//            'director' => 'required',
-//            'actors' => 'required',
-//            'duration' => 'required',
-//            'score' => 'required|numeric|min:1|max:10',
-//            'genres' => 'required|array',
-//            'genres.*' => 'exists:genres,id',
-//        ]);
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+            'director' => 'required',
+            'actors' => 'required',
+            'duration' => 'required',
+            'score' => 'required|numeric|min:1|max:10',
+            'genres' => 'required|array',
+            'genres.*' => 'exists:genres,id',
+        ]);
 
-        // Create a new movie
         $movie = new Movie;
         $movie->title = $request->input('title');
         $movie->description = $request->input('description');
@@ -53,14 +51,12 @@ class MovieController extends Controller
         $movie->score = $request->input('score');
         $movie->save();
 
-        // Attach genres to the movie
         $genres = $request->input('genres');
         foreach ($genres as $genre_id) {
             $genre = Genre::find($genre_id);
             $movie->genre()->attach($genre);
         }
 
-        // Redirect to a page (e.g. the movie index page)
         return redirect()->route('movies.index')->with('success', 'Movie created successfully.');
     }
 
@@ -86,7 +82,18 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie)
     {
-        // Update the movie details
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+            'director' => 'required',
+            'actors' => 'required',
+            'duration' => 'required',
+            'score' => 'required|numeric|min:1|max:10',
+            'genres' => 'required|array',
+            'genres.*' => 'exists:genres,id',
+        ]);
+
         $movie->title = $request->input('title');
         $movie->description = $request->input('description');
         $movie->image = $request->input('image');
@@ -96,18 +103,15 @@ class MovieController extends Controller
         $movie->score = $request->input('score');
         $movie->save();
 
-        // Update genres of the movie
-        // First, detach all existing genres
+
         $movie->genre()->detach();
 
-        // Then, attach the new set of genres
         $genres = $request->input('genres');
         foreach ($genres as $genre_id) {
             $genre = Genre::find($genre_id);
             $movie->genre()->attach($genre);
         }
 
-        // Redirect to a page (e.g. the movie index page)
         return redirect()->route('movies.index')->with('success', 'Movie updated successfully.');
 
     }

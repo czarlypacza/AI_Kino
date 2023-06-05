@@ -14,6 +14,8 @@ use App\Models\Showtime;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DashboardController;
+use Laravel\Cashier\Http\Controllers\PaymentController;
+use Laravel\Cashier\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,33 @@ use App\Http\Controllers\DashboardController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//Route::post('/pay', function (Request $request) {
+//    $payment = $request->user()->pay(
+//        $request->get('amount')
+//    );
+//
+//    return $payment->client_secret;
+//})->name('pay');
+Route::post('/pay', function (Request $request) {
+    $payment = $request->user()->payWith(
+        $request->get('amount'),
+        ['card']
+    );
+
+    return response()->json([
+        'client_secret' => $payment->client_secret,
+        'payment_id' => $payment->id
+    ]);
+})->name('pay');
+
+Route::get('payment/{id}', [PaymentController::class,'show'])->name('payment');
+Route::post('webhook', 'WebhookController@handleWebhook')->name('webhook');
+
+
+
+Route::get('/billing-portal', function (Request $request) {
+    return $request->user()->redirectToBillingPortal(route('guest_index'));
+});
 
 Route::get('/kino',[Controller::class,'index'])->name('guest_index');
 

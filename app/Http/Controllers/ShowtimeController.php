@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Room;
+use App\Models\Show;
 
 class ShowtimeController extends Controller
 {
@@ -29,11 +30,12 @@ class ShowtimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    /*public function store(Request $request)
     {
         $request->validate([
             'time' => 'required|date_format:H:i',
         ]);
+
 
         $time = Carbon::parse($request->time);
         Showtime::create([
@@ -42,7 +44,53 @@ class ShowtimeController extends Controller
             'show_id' => $request->show_id,
         ]);
         return redirect()->back();
+    }*/
+    public function store(Request $request)
+    {
+        $request->validate([
+            'time' => 'required|date_format:H:i',
+            'room_id' => 'required',
+            'show_id' => 'required'
+        ]);
+
+        $time = Carbon::parse($request->time);
+        $show = Show::find($request->show_id);
+        $movie = Movie::find($show->movie_id);
+        $duration = $movie->duration;
+
+        $startDateTime = Carbon::parse($show->date . ' ' . $time->toTimeString());
+        $endDateTime = (clone $startDateTime)->addMinutes($duration);
+
+        $existingShowtimes = Showtime::where('room_id', $request->room_id)
+            ->whereHas('show', function ($query) use ($show) {
+                $query->where('date', $show->date);
+            })
+            ->get();
+
+        foreach ($existingShowtimes as $existingShowtime) {
+            $existingShow = Show::find($existingShowtime->show_id);
+            $existingMovie = Movie::find($existingShow->movie_id);
+
+            $existingStartDateTime = Carbon::parse($existingShow->date . ' ' . $existingShowtime->time);
+            $existingEndDateTime = (clone $existingStartDateTime)->addMinutes($existingMovie->duration);
+
+            if ($startDateTime->between($existingStartDateTime, $existingEndDateTime) ||
+                $endDateTime->between($existingStartDateTime, $existingEndDateTime)) {
+                return redirect()->back()->withErrors(['time' => 'W podanej sali jest już seans o danej godzinie.']);
+            }
+        }
+
+        Showtime::create([
+            'time' => $time,
+            'room_id' => $request->room_id,
+            'show_id' => $request->show_id,
+        ]);
+
+        return redirect()->back();
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -68,7 +116,40 @@ class ShowtimeController extends Controller
      */
     public function update(Request $request, Showtime $showtime)
     {
+        //$time = Carbon::parse($request->time);
+        $request->validate([
+            'time' => 'required|date_format:H:i',
+            'room_id' => 'required',
+            'show_id' => 'required'
+        ]);
+
         $time = Carbon::parse($request->time);
+        $show = Show::find($request->show_id);
+        $movie = Movie::find($show->movie_id);
+        $duration = $movie->duration;
+
+        $startDateTime = Carbon::parse($show->date . ' ' . $time->toTimeString());
+        $endDateTime = (clone $startDateTime)->addMinutes($duration);
+
+        $existingShowtimes = Showtime::where('room_id', $request->room_id)
+            ->whereHas('show', function ($query) use ($show) {
+                $query->where('date', $show->date);
+            })->where('show_id', '!=', $show->id)->get();
+
+
+        foreach ($existingShowtimes as $existingShowtime) {
+            $existingShow = Show::find($existingShowtime->show_id);
+            $existingMovie = Movie::find($existingShow->movie_id);
+
+            $existingStartDateTime = Carbon::parse($existingShow->date . ' ' . $existingShowtime->time);
+            $existingEndDateTime = (clone $existingStartDateTime)->addMinutes($existingMovie->duration);
+
+            if ($startDateTime->between($existingStartDateTime, $existingEndDateTime) ||
+                $endDateTime->between($existingStartDateTime, $existingEndDateTime)) {
+                return redirect()->back()->withErrors(['time' => 'W podanej sali jest już seans o danej godzinie.']);
+            }
+        }
+
         $showtime->update([
             'time' => $time,
             'room_id' => $request->room_id,

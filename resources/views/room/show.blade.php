@@ -164,6 +164,7 @@
         }
 
         function createTickets() {
+            var amount = 0;
             var showDate = new Date("{{ $showtime->show->date }}");
             var today = new Date();
             today.setHours(0, 0, 0, 0);  // Ensure that we're comparing dates only, not times
@@ -187,26 +188,28 @@
 
                 price = price * (1 - discountPercentage / 100);
 
-                    var showtime_id = "{{ $showtime->id }}";
+                amount += price;
 
-                    var formData = new FormData();
-                    formData.append('row', row);
-                    formData.append('seat', col);
-                    formData.append('price', price);
-                    formData.append('showtime_id', showtime_id);
-                    @if(Auth::user())//TODO: zdecydowac czy kupowanie biletu bedzie tylko dla zalogowanych uzytkowników
-                    formData.append('user_id', "{{ Auth::user()->id }}");
-                    @else
+                var showtime_id = "{{ $showtime->id }}";
 
-                    @endif
+                var formData = new FormData();
+                formData.append('row', row);
+                formData.append('seat', col);
+                formData.append('price', price);
+                formData.append('showtime_id', showtime_id);
+                @if(Auth::user())//TODO: zdecydowac czy kupowanie biletu bedzie tylko dla zalogowanych uzytkowników
+                formData.append('user_id', "{{ Auth::user()->id }}");
+                @else
+
+                @endif
 
 
-                    console.warn('aaaa');
+                console.warn('aaaa');
 
-                    var request = new XMLHttpRequest();
-                    request.open('POST', "{{ route('tickets.store') }}");
-                    request.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-                    request.onload = function() {
+                var request = new XMLHttpRequest();
+                request.open('POST', "{{ route('tickets.store') }}");
+                request.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                request.onload = function() {
                     if (request.status === 200) {
                         console.log('Ticket created successfully.');
                     } else {
@@ -215,8 +218,43 @@
                 };
                 request.send(formData);
             });
-            window.location.href = "{{ route('guest_index') }}";
+            {{--var formData2 = new FormData();--}}
+            {{--formData2.append('amount', amount);--}}
+            {{--var request = new XMLHttpRequest();--}}
+            {{--request.open('POST', "{{ route('pay') }}");--}}
+            {{--request.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');--}}
+            {{--request.onload = function() {--}}
+            {{--    if (request.status === 200) {--}}
+            {{--        console.log('Ticket created successfully.');--}}
+            {{--    } else {--}}
+            {{--        console.error('Failed to create ticket.');--}}
+            {{--    }--}}
+            {{--};--}}
+            {{--request.send(formData2);--}}
+            {{--window.location.href = "{{ route('payment',['id'=>1]) }}";--}}
+            var formData2 = new FormData();
+            formData2.append('amount', amount*100);
+            var request = new XMLHttpRequest();
+            request.open('POST', "{{ route('pay') }}");
+            request.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+            request.onload = function() {
+                if (request.status === 200) {
+                    console.log('Payment intent created successfully.');
+
+                    var response = JSON.parse(request.responseText);
+
+                    //var clientSecret = response.client_secret;
+                    var paymentId = response.payment_id;
+
+                    window.location.href = "{{ url('payment') }}/" + paymentId;
+                } else {
+                    console.error('Failed to create payment intent.');
+                }
+            };
+            request.send(formData2);
+
         }
+
 
     </script>
 </body>

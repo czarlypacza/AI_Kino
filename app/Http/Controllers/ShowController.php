@@ -38,8 +38,19 @@ class ShowController extends Controller
      */
     public function store(Request $request)
     {
-        Show::create($request->all());
-        return redirect()->back();
+        $request->validate([
+            'movie_id'=>'required',
+            'date'=>'required',
+            ]
+        );
+        $show = Show::where('date',$request->date)->where('movie_id',$request->movie_id)->first();
+
+        if($show){
+            return redirect()->back()->with('error','Movie is already scheduled for this day');
+        }else {
+            Show::create($request->all());
+            return redirect()->back();
+        }
     }
 
     /**
@@ -63,8 +74,20 @@ class ShowController extends Controller
      */
     public function update(Request $request, Show $show)
     {
-        $show->update($request->all());
-        return redirect()->route('shows.index');
+        $request->validate([
+                'movie_id'=>'required',
+                'date'=>'required',
+            ]
+        );
+
+        $pastshow = Show::where('date',$request->date)->where('movie_id',$request->movie_id)->first();
+
+        if($pastshow){
+            return redirect()->back()->withErrors('Ten film jest dodany w dany dzień');
+        }else{
+            $show->update($request->all());
+            return redirect()->route('shows.index');
+        }
     }
 
     /**
