@@ -199,7 +199,7 @@
             }
         };
 
-        var url = "{{ route('getMovieShowtimes', ['date' => ':date']) }}";
+        var url = "{{ route('getMovieShowtimesShow', ['date' => ':date']) }}";
         url = url.replace(':date', selectedDate);
         xhr.open("GET", url, true);
         xhr.send();

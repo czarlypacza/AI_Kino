@@ -47,33 +47,35 @@
                     <i class="bi bi-arrow-right"></i>
                 </button>
             </div>
-            <table class="table mt-4 w-100 bg-p_secondary-300 rounded-3" >
+            <table class="table mt-4 w-100 bg-p_secondary-300 rounded-3">
                 <thead class="text-p_support-50">
-                    <tr class="border-t border-p_primary-100">
-                        <th class='w1/4'>Filmy</th>
-                        <th class='w3/4'>Godziny</th>
-                    </tr>
+                <tr class="border-t border-p_primary-100">
+                    <th class="col-5 text-p_support-50 border-bottom-0">Filmy</th>
+                    <th class="col-6 text-p_support-50 border-bottom-0">Godziny</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach ($shows as $show)
-                        <tr class="border-t border-p_primary-100 hover:bg-p_secondary-200 hover:text-p_accent-600" >
-                            <td class='col-5 text-p_support-50 '>{{ $show->movie->title }}</td>
-                            <td class='col-6 '>
-                                @php
-                                    $showTimes = Showtime::where('show_id', $show->id)->get();
-                                @endphp
+                @foreach ($shows as $show)
+                    <tr class="border-t border-p_primary-100 hover:bg-p_secondary-200 hover:text-p_accent-600">
+                        <td class='col-5 text-p_support-50 border-bottom-0'><div class='inline-flex'>{{ $show->movie->title }}</div></td>
+                        <td class='col-6 d-inline-flex h-100 align-items-center border-bottom-0'>
+                            @php
+                                $showTimes = Showtime::where('show_id', $show->id)->get();
+                            @endphp
 
-                                @foreach ($showtimes as $showtime)
-                                    @if ($showtime->show_id===$show->id)
+                            @foreach ($showTimes as $showtime)
+                                @if ($showtime->show_id===$show->id)
                                     <a class='text-decoration-none bg-p_support-50 text-p_accent-600 p-1 m-1 rounded-3 hover:bg-p_accent-700 hover:text-p_accent-300' method='get' href='/showtimes/{{$showtime->id}}'> {{$showtime->time}} </a>
-                                    @endif
-                                @endforeach
-                            </td>
-                        </tr>
-                    @endforeach
-
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
+
+
+
         </div>
     </div>
 
@@ -86,8 +88,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var today = new Date();
-            var day = ("0" + today.getDate()).slice(-2);  // ensure two digits
-            var month = ("0" + (today.getMonth() + 1)).slice(-2);  // ensure two digits, January is 0 in JavaScript
+            var day = ("0" + today.getDate()).slice(-2);
+            var month = ("0" + (today.getMonth() + 1)).slice(-2);
             var year = today.getFullYear();
 
             var todayFormatted = year + '-' + month + '-' + day;

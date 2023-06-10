@@ -101,7 +101,7 @@
                             </div>
 
                             <div>
-                                <x-input-label for="password" :value="__('New Password')" class="text-p_accent-700 dark:text-gray-200"/>
+                                <x-input-label for="password" :value="__('Hasło')" class="text-p_accent-700 dark:text-gray-200"/>
                                 <x-text-input id="password" name="password" type="text" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2 text-p_error dark:text-p_error-dark" />
                             </div>

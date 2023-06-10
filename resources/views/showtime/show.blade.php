@@ -102,7 +102,7 @@
                                               @csrf
                                               @method('PUT')
                                               <div class="modal-header text-p_accent-600">
-                                                  <h5 class="modal-title" id="exampleModalLabel">Dodaj godzine</h5>
+                                                  <h5 class="modal-title" id="exampleModalLabel">Edytuj godzine</h5>
                                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                               </div>
                                               <div class="modal-body d-flex align-items-center justify-content-evenly text-p_accent-700">
