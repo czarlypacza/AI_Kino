@@ -82,11 +82,13 @@ Route::get('payment/{id}', [PaymentController::class,'show'])->middleware('auth'
 
 Route::get('/kino',[Controller::class,'index'])->name('guest_index');
 
+Route::get('/',function (){
+    return redirect('kino');
+});
 
-
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-})->name('home');
+})->name('home');*/
 
 // Route::get('/getMovieShowtimes/{date}',  function ($date) {
 //     $shows = Show::whereDate('date', $date)->get();

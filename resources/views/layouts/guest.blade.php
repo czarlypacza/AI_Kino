@@ -19,15 +19,11 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
 </head>
-<body class="font-sans bg-p_primary-400 md:text-lg antialiased">
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-p_secondary-300 dark:bg-gray-900">
-    <div>
-        <a href="/">
-            <x-application-logo class="w-20 h-20 fill-current text-p_support-50" />
-        </a>
-    </div>
+<body class="font-sans antialiased bg-p_primary-500 text-p_support-50">
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-p_secondary-300">
 
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-p_support-50 shadow-md overflow-hidden sm:rounded-lg">
+
+    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-p_primary-500 text-p_support-50 shadow-md overflow-hidden sm:rounded-lg">
         {{ $slot }}
     </div>
 </div>
