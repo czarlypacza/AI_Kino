@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-p_accent-700 dark:text-gray-200 leading-tight">
             {{ __('Edycja użytkownika') }}
         </h2>
     </x-slot>
@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-grey-100 dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-full">
-                    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200">
+                    <h2 class="font-semibold text-xl text-p_accent-700 dark:text-gray-200 leading-tight">
                         {{$user->name}}
                     </h2>
                     <form method="POST" action="{{ route('users.update',[$user]) }}">

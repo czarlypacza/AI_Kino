@@ -65,6 +65,69 @@ class MovieSeeder extends Seeder
                     'duration'=>'154',
                     'score'=>'9',
 
+                ],
+                [
+                    'title' => 'The Shawshank Redemption',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed velit urna, viverra sit amet, ultrices vitae, sodales at, nisi.',
+                    'image' => 'storage/img/the_shawshank_redemption.png',
+                    'director' => 'Frank Darabont',
+                    'actors' => 'Tim Robbins, Morgan Freeman, Bob Gunton',
+                    'duration' => '142',
+                    'score' => '9.3',
+                ],
+                [
+                    'title' => 'The Godfather',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed velit urna, viverra sit amet, ultrices vitae, sodales at, nisi.',
+                    'image' => 'storage/img/the_godfather.png',
+                    'director' => 'Francis Ford Coppola',
+                    'actors' => 'Marlon Brando, Al Pacino, James Caan',
+                    'duration' => '175',
+                    'score' => '9.2',
+                ],
+                [
+                    'title' => 'The Dark Knight',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed velit urna, viverra sit amet, ultrices vitae, sodales at, nisi.',
+                    'image' => 'storage/img/the_dark_knight.png',
+                    'director' => 'Christopher Nolan',
+                    'actors' => 'Christian Bale, Heath Ledger, Aaron Eckhart',
+                    'duration' => '152',
+                    'score' => '9.0',
+                ],
+                [
+                    'title' => '12 Angry Men',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed velit urna, viverra sit amet, ultrices vitae, sodales at, nisi.',
+                    'image' => 'storage/img/12_angry_men.png',
+                    'director' => 'Sidney Lumet',
+                    'actors' => 'Henry Fonda, Lee J. Cobb, Martin Balsam',
+                    'duration' => '96',
+                    'score' => '9.0',
+                ],
+                [
+                    'title' => 'Schindler\'s List',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed velit urna, viverra sit amet, ultrices vitae, sodales at, nisi.',
+                    'image' => 'storage/img/schindlers_list.png',
+                    'director' => 'Steven Spielberg',
+                    'actors' => 'Liam Neeson, Ralph Fiennes, Ben Kingsley',
+                    'duration' => '195',
+                    'score' => '8.9',
+                ],
+                [
+                    'title' => 'Fight Club',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed velit urna, viverra sit amet, ultrices vitae, sodales at, nisi.',
+                    'image' => 'storage/img/fight_club.png',
+                    'director' => 'David Fincher',
+                    'actors' => 'Brad Pitt, Edward Norton, Meat Loaf',
+                    'duration' => '139',
+                    'score' => '8.8',
+                ],
+                [
+                    'title' => 'Forrest Gump',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed velit urna, viverra sit amet, ultrices vitae, sodales at, nisi.',
+                    'image' => 'storage/img/forrest_gump.png',
+                    'director' => 'Robert Zemeckis',
+                    'actors' => 'Tom Hanks, Robin Wright, Gary Sinise',
+                    'duration' => '142',
+                    'score' => '8.8',
                 ]
 
 
@@ -73,3 +136,4 @@ class MovieSeeder extends Seeder
 
     }
 }
+

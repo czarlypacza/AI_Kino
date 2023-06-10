@@ -11,12 +11,14 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.39.0/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    @vite([ 'resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
+
 </head>
-<body>
-    @include('shared/nav')
+<body class="bg-p_primary-400 md:text-lg">
+@include('layouts.navigation')
     <br>
     <div class="container mt-5 mb-5">
-        <div class="row mt-5 text-center"><h2>Edytuj seans</h2></div>
+        <div class="row mt-5 text-center text-p_accent-600"><h2>Edytuj seans</h2></div>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -51,7 +53,7 @@
 
                     </div>
                     <div class="text-center mt-4 mb-4">
-                        <input class="btn btn-success" type="submit" value="Wyślij">
+                        <x-primary-button type="submit"> Wyślij</x-primary-button>
                     </div>
 
                 </form>

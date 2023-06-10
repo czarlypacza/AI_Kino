@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carousel;
 use App\Models\Movie;
 use App\Models\Room;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -18,7 +19,17 @@ class Controller extends BaseController
 
     public function index()
     {
-        return  view('index\index', ['movies' => Movie::all(), 'shows' => Show::where('date',now()->format('Y-m-d'))->get(), 'showtimes' => Showtime::orderBy('show_id')->orderBy('time')->get(), 'date' => now()->format('Y-m-d'), 'recommended1' => Movie::all()->random(3)]);
+        $recommended1 = Movie::all()->random(9)->toArray();
+        $arr_recomm = array_chunk($recommended1, 3);
+
+        $recommended2 = Movie::all()->random(12)->toArray();
+        $arr_recomm2 = array_chunk($recommended2, 4);
+
+        $recommended3 = Movie::all()->random(12)->toArray();
+        $arr_recomm3 = array_chunk($recommended3, 6);
+
+
+        return  view('index\index', ['carousels'=>Carousel::all(),'movies' => Movie::all(), 'shows' => Show::where('date',now()->format('Y-m-d'))->get(), 'showtimes' => Showtime::orderBy('show_id')->orderBy('time')->get(), 'date' => now()->format('Y-m-d'), 'recommended1' => $arr_recomm,'recommended2' => $arr_recomm2,'recommended3' => $arr_recomm3]);
     }
      public function getMovieShowtimes($date)
      {

@@ -98,8 +98,15 @@ class ShowtimeController extends Controller
     public function show(Showtime $showtime)
     {
         //$showtime = Showtime::findOrFail($id);
+        $recommended1 = Movie::all()->random(9)->toArray();
+        $arr_recomm = array_chunk($recommended1, 3);
 
-        return view('showtime/show',['rooms'=>Room::all(),'showtime' => $showtime, 'recommended1' => Movie::all()->random(3),'genres'=>$showtime->show->movie->genres]);
+        $recommended2 = Movie::all()->random(12)->toArray();
+        $arr_recomm2 = array_chunk($recommended2, 4);
+
+        $recommended3 = Movie::all()->random(12)->toArray();
+        $arr_recomm3 = array_chunk($recommended3, 6);
+        return view('showtime/show',['rooms'=>Room::all(),'showtime' => $showtime, 'recommended1' => $arr_recomm,'recommended2' => $arr_recomm2,'recommended3' => $arr_recomm3,'genres'=>$showtime->show->movie->genres]);
     }
 
 

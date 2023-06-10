@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Cashier\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
@@ -38,7 +38,7 @@ class PaymentController extends Controller
 
         $paymentIntent['payment_method'] = Arr::only($paymentIntent['payment_method'] ?? [], 'id');
 
-        return view('cashier::payment', [
+        return view('payment', [
             'stripeKey' => config('cashier.key'),
             'amount' => $payment->amount(),
             'payment' => $payment,

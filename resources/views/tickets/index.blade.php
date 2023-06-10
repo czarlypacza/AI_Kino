@@ -12,15 +12,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased" x-data="{ darkMode: true }">
+<body class="font-sans antialiased bg-p_primary-400 md:text-lg" x-data="{ darkMode: true }">
 @include('layouts.navigation')
 
 <div class="row w-100 mt-3">
     <div class="col-11 mt-3 mx-auto">
-        <h3 class="font-semibold text-5xl">Bilety</h3>
+        <h3 class="font-semibold text-5xl text-p_accent-600">Bilety</h3>
 
-        <table class="table table-striped mt-4 ">
-        <thead>
+        <table class="table mt-4 ">
+        <thead class="text-p_accent-700">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Film</th>
@@ -30,14 +30,18 @@
                 <th scope="col">Rząd</th>
                 <th scope="col">Miejsce</th>
                 <th scope="col">Cena</th>
+                @can('is-admin')
                 <th scope="col">Użytkownik</th>
+                <th scope="col">Status</th>
                 <th scope="col">Akcje</th>
+                @endcan
             </tr>
         </thead>
-            <tbody>
+            <tbody class="text-p_support-50">
             @foreach ($tickets as $ticket)
+                @if((\Illuminate\Support\Facades\Auth::user()->email==$ticket->user->email&&$ticket->status=="paid")||\Illuminate\Support\Facades\Auth::user()->can('is-admin'))
                 <tr>
-                    <th scope="row">{{ $ticket->id }}</th>
+                    <th scope="row">{{ $ticket->id }} </th>
                     <td>{{ $ticket->showtime->show->movie->title }}</td>
                     <td>{{ $ticket->showtime->show->date }}</td>
                     <td>{{ $ticket->showtime->time }}</td>
@@ -45,10 +49,16 @@
                     <td>{{ $ticket->row }}</td>
                     <td>{{ $ticket->seat }}</td>
                     <td>{{ $ticket->price }}</td>
+                    @can('is-admin')
                     @if($ticket->user!=null)
                     <td><a href="">{{ $ticket->user->name }}</a>  </td>
                     @else
                         <td>Gość</td>
+                    @endif
+                    @if($ticket->status=="pending")
+                        <td>Oczekujący</td>
+                        @elseif($ticket->status=="paid")
+                        <td>Opłacony</td>
                     @endif
                     <td>
                         <form method="POST" action="{{ route('tickets.destroy',[$ticket]) }}">
@@ -57,7 +67,9 @@
                             <button class="btn bg-red-600 btn-sm hover:border-gray-800" type="submit">Usuń</button>
                         </form>
                     </td>
+                    @endcan
             </tr>
+                @endif
             @endforeach
             </tbody>
         </table>

@@ -41,15 +41,19 @@ class MovieController extends Controller
             'genres.*' => 'exists:genres,id',
         ]);
 
+
         $movie = new Movie;
         $movie->title = $request->input('title');
         $movie->description = $request->input('description');
-        $movie->image = $request->input('image');
+        $imgpath = $request->file('image')->storeAs('public/img', $movie->title. '.jpg');
+        $imgpath = str_replace('public/', 'storage/', $imgpath);
+        $movie->image = $imgpath;
         $movie->director = $request->input('director');
         $movie->actors = $request->input('actors');
         $movie->duration = $request->input('duration');
         $movie->score = $request->input('score');
         $movie->save();
+
 
         $genres = $request->input('genres');
         foreach ($genres as $genre_id) {
@@ -96,7 +100,9 @@ class MovieController extends Controller
 
         $movie->title = $request->input('title');
         $movie->description = $request->input('description');
-        $movie->image = $request->input('image');
+        $imgpath = $request->file('image')->storeAs('public/img', $movie->title. '.jpg');
+        $imgpath = str_replace('public/', 'storage/', $imgpath);
+        $movie->image = $imgpath;
         $movie->director = $request->input('director');
         $movie->actors = $request->input('actors');
         $movie->duration = $request->input('duration');

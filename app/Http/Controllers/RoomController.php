@@ -32,8 +32,8 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rows' => 'required|integer|min:1|max:25',
-            'cols' => 'required|integer|min:1|max:25',
+            'rows' => 'required|integer|min:5|max:25',
+            'cols' => 'required|integer|min:5|max:25',
         ]);
 
         Room::create($request->all());
@@ -46,10 +46,18 @@ class RoomController extends Controller
      */
     public function show(Room $room, Showtime $showtime)
     {
+        $recommended1 = Movie::all()->random(9)->toArray();
+        $arr_recomm = array_chunk($recommended1, 3);
+
+        $recommended2 = Movie::all()->random(12)->toArray();
+        $arr_recomm2 = array_chunk($recommended2, 4);
+
+        $recommended3 = Movie::all()->random(12)->toArray();
+        $arr_recomm3 = array_chunk($recommended3, 6);
         return view('room.show', [
             'room' => $room,
             'showtime' => $showtime,
-            'recommended1' => Movie::all()->random(3),
+            'recommended1' => $arr_recomm,'recommended2' => $arr_recomm2,'recommended3' => $arr_recomm3,
             'tickets'=>$showtime->ticket
         ]);
     }
@@ -69,8 +77,8 @@ class RoomController extends Controller
     public function update(Request $request, Room $room)
     {
         $request->validate([
-            'rows' => 'required|integer|min:1|max:25',
-            'cols' => 'required|integer|min:1|max:25',
+            'rows' => 'required|integer|min:5|max:25',
+            'cols' => 'required|integer|min:5|max:25',
         ]);
         $room->update($request->all());
         return redirect()->route('rooms.index');

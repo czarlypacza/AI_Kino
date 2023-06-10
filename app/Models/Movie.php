@@ -16,6 +16,10 @@ class Movie extends Model
         return $this->hasMany(Show::class);
     }
 
+    public function carousel(){
+        return $this->hasOne(Carousel::class);
+    }
+
     public function genre():BelongsToMany{
         return  $this->belongsToMany(Genre::class);
     }

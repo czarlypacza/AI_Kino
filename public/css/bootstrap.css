@@ -4436,7 +4436,7 @@ textarea.form-control-lg {
     transition: none;
   }
 }
-.accordion-button:hover {
+.aaccordion-button:hover {
   z-index: 2;
 }
 .accordion-button:focus {

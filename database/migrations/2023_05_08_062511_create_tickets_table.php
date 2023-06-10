@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('seat');
             $table->integer('row');
             $table->integer('price');
+            $table->string('status')->default('pending');
             $table->foreignIdFor(Showtime::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();

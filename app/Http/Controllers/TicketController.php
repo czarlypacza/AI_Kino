@@ -39,7 +39,7 @@ class TicketController extends Controller
         $ticket = new Ticket($request->all());
         //$ticket->save();
         //after the ticket is created redirect to the start page
-        return redirect('/kino')->with('success', 'Ticket created successfully.');
+        return redirect('/kino');
 
         //return "aaaa";
     }

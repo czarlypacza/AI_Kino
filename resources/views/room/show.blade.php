@@ -13,33 +13,39 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
     @vite([ 'resources/css/app.css','public/css/bootstrap.css','resources/js/app.js','public/js/bootstrap.bundle.js'])
 </head>
-
-<body>
+<body class="bg-p_primary-400 md:text-lg">
 @include('layouts.navigation')
-
-    <div class="row mt-3">
+<div class="flex justify-content-center">
+    <div class="row mt-3 max-w-4xl">
         <div class="col col-11 mx-auto mt-3">
-            <h4>Dostępne miejsca</h4>
-            <table class="table">
+            <h4 class="text-p_accent-500 mb-4">Dostępne miejsca</h4>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}aaa
+                </div>
+            @endif
+            <div class="bg-p_primary-600 w-100 h-10 fw-bold fs-2 text-p_support-50 text-center">Ekran</div>
+
+            <table class="table mt-2 table-borderless">
                 @for ($i = 1; $i <= $room->rows; $i++)
                     <tr>
-                        <td>{{ $i }}</td>
-                        @for ($j = 0; $j < $room->cols; $j++)
+                        <td class="text-white">{{ $i }}</td>
+                        @for ($j = 1; $j <= $room->cols; $j++)
                             @php
                                 $canMake = true;
                             @endphp
                             @foreach ($tickets as $ticket)
-                                @if ($ticket->row===$i && $ticket->seat===$j)
-                                <td><button class="btn" disabled onclick="toggleSelected(this)" data-row="{{ $i }}"
-                                    data-col="{{ $j }}">S</button></td>
+                                @if ($ticket->row===$i && $ticket->seat===$j && $ticket->status =="paid")
+                                <td><button class="btn text-white bg-danger" disabled onclick="toggleSelected(this)" data-row="{{ $i }}"
+                                    data-col="{{ $j }}">{{$j}}</button></td>
                                     @php
                                         $canMake=false;
                                     @endphp
                                 @endif
                             @endforeach
                                 @if ($canMake)
-                                <td><button class="btn" onclick="toggleSelected(this)" data-row="{{ $i }}"
-                                    data-col="{{ $j }}">S</button></td>
+                                <td><button class="btn btn-outline-light text-white" onclick="toggleSelected(this)" data-row="{{ $i }}"
+                                    data-col="{{ $j }}">{{$j}}</button></td>
                                 @endif
                         @endfor
                     </tr>
@@ -50,43 +56,50 @@
             <div class="row">
                 <div class="col col-6">
                     <div>
-                        <h4>Wybrane bilety: <span id="iloscBilety">0</span></h4>
+                        <h4 class="text-p_support-50">Wybrane bilety: <span id="iloscBilety">0</span></h4>
                     </div>
                 </div>
                 <div class="col col-6">
-                    <button style="float: right;" data-bs-toggle="modal" data-bs-target="#modalTickets"
-                        class="btn btn-success btn-lg" onclick="populateModal()">Kup bilety</button>
+                    <x-primary-button style="float: right;" data-bs-toggle="modal" data-bs-target="#modalTickets"
+                        onclick="populateModal()">Kup bilety</x-primary-button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalTickets" tabindex="-1" aria-labelledby="modalTicketsLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTicketsLabel">Wybrane bilety</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>aaaa</p>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">Seat</div>
-                            <div class="col">Ticket Type</div>
-                        </div>
-                        <!-- The selected seats will be dynamically populated here -->
+</div>
+<div class="modal fade" id="modalTickets" tabindex="-1" aria-labelledby="modalTicketsLabel" aria-hidden="true">
+    <div class="modal-dialog bg-p_primary-500 ">
+        <div class="modal-content bg-transparent text-p_support-50">
+            <div class="modal-header border-b border-0">
+                <h5 class="modal-title text-p_support-50" id="modalTicketsLabel">Wybrane bilety</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col text-p_support-50">Seat</div>
+                        <div class="col text-p_support-50">Ticket Type</div>
                     </div>
+                    <!-- The selected seats will be dynamically populated here -->
                 </div>
+            </div>
+            <div class="modal-footer border-0">
+<!--
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+-->
+                @if(\Illuminate\Support\Facades\Auth::user())
+                    <x-primary-button type="button" id="paybutton" onclick="createTickets()">Do płatności</x-primary-button>
+                @else
+                    <span class="text-p_accent-600 fw-bold fs-3" >Aby kupic bilet należy się zalogować</span>
+                @endif
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="createTickets()">Save changes</button>
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    @include('shared/polecamy')
+
+@include('shared/polecamy')
 
     @include('shared\footer')
     <script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
@@ -140,6 +153,8 @@
                 // Create the ticket type column with a select box
                 var ticketTypeCol = document.createElement('div');
                 ticketTypeCol.classList.add('col');
+                seatCol.classList.add('text-p_support-50');
+
                 var ticketTypeSelect = document.createElement('select');
                 ticketTypeSelect.classList.add('form-select');
                 ticketTypeSelect.id = 'ticketType-' + row + '-' + col;
@@ -160,17 +175,18 @@
         function updateCounter() {
             var selectedButtons = document.querySelectorAll('.btn-success');
             var counter = document.getElementById('iloscBilety');
-            counter.textContent = selectedButtons.length - 1;
+            counter.textContent = selectedButtons.length ;
         }
 
         function createTickets() {
+            var paybutton = document.getElementById('paybutton');
+            paybutton.disabled = true;
             var amount = 0;
             var showDate = new Date("{{ $showtime->show->date }}");
             var today = new Date();
-            today.setHours(0, 0, 0, 0);  // Ensure that we're comparing dates only, not times
+            today.setHours(0, 0, 0, 0);
             var daysAhead = Math.floor((showDate - today) / (1000 * 60 * 60 * 24));
 
-            // Calculate the discount percentage: 5% per day, max 20%
             var discountPercentage = Math.min(daysAhead * 5, 20);
 
             selectedSeats.forEach(function(seat) {
@@ -179,7 +195,7 @@
                 var ticketTypeSelect = document.querySelector('#ticketType-' + row + '-' + col);
                 var ticketType = ticketTypeSelect.value;
                 var price = 0;
-                // Assign the price based on the ticket type
+
                 if (ticketType === 'normalny') {
                     price = 10;
                 } else if (ticketType === 'ulgowy') {
@@ -203,21 +219,15 @@
 
                 @endif
 
-
                 console.warn('aaaa');
 
                 var request = new XMLHttpRequest();
                 request.open('POST', "{{ route('tickets.store') }}");
                 request.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-                request.onload = function() {
-                    if (request.status === 200) {
-                        console.log('Ticket created successfully.');
-                    } else {
-                        console.error('Failed to create ticket.');
-                    }
-                };
                 request.send(formData);
             });
+
+
             {{--var formData2 = new FormData();--}}
             {{--formData2.append('amount', amount);--}}
             {{--var request = new XMLHttpRequest();--}}
@@ -239,14 +249,14 @@
             request.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
             request.onload = function() {
                 if (request.status === 200) {
+                    var response = JSON.parse(request.response);
                     console.log('Payment intent created successfully.');
+                    console.log(response);
 
-                    var response = JSON.parse(request.responseText);
-
+                    window.location.href = response.url;
                     //var clientSecret = response.client_secret;
-                    var paymentId = response.payment_id;
+//                    var paymentId = response.payment_id;
 
-                    window.location.href = "{{ url('payment') }}/" + paymentId;
                 } else {
                     console.error('Failed to create payment intent.');
                 }

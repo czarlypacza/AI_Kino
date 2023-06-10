@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ShowSeeder::class);
         $this->call(ShowtimeSeeder::class);
         $this->call(UserSeeder::class);
-
+        $this->call(CarouselSeeder::class);
         $this->call(TicketSeeder::class);
 
     }

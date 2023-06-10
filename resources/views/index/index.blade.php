@@ -19,16 +19,25 @@
 
 </head>
 
-<body>
+<body class="bg-p_primary-400 md:text-lg">
     @include('layouts.navigation')
 
-    @include('shared/carousel')
+    <div class="md:hidden">
+        @include('shared/carousel')
+    </div>
 
-    <div class="row w-100">
-        <div class="col-11 mt-3 mx-auto">
-            <span class="fs-3 fw-bolder">Repertuar</span>
+    <div class="hidden  md:mb-6 md-pb-6 md:flex justify-content-center bg-gradient-to-t from-p_primary-400 to-p_primary-500">
+        <div class="mx-md-4 mx-lg-5">
+            @include('shared/carousel')
+        </div>
+    </div>
+
+
+    <div class="p-2 sm:mx-3 w-90 mt-md-3 mb-md-3 d-md-flex  justify-content-center">
+        <div class="mt-3 p-2 sm:mx-3 max-w-6xl flex-grow-1">
+            <span class="fs-3 fw-bolder text-p_accent-600">Repertuar</span>
             <div class="input-group date">
-                <input type="date" class="form-control" id="datepicker" placeholder="Select date"
+                <input type="date" class="form-control " id="datepicker" placeholder="Select date"
                     aria-label="Select date" aria-describedby="datepicker" onchange="getMovieShowtimes()"
                     value="{{ $date }}" />
                 <button class="btn btn-outline-secondary" type="button" id="prev-date-btn">
@@ -38,26 +47,25 @@
                     <i class="bi bi-arrow-right"></i>
                 </button>
             </div>
-            <table class="table table-striped mt-4">
-                <thead>
-                    <tr>
+            <table class="table mt-4 w-100 bg-p_secondary-300 rounded-3" >
+                <thead class="text-p_support-50">
+                    <tr class="border-t border-p_primary-100">
                         <th class='w1/4'>Filmy</th>
                         <th class='w3/4'>Godziny</th>
                     </tr>
                 </thead>
                 <tbody>
-
                     @foreach ($shows as $show)
-                        <tr>
-                            <td class='col-5'>{{ $show->movie->title }}</td>
-                            <td class='col-6'>
+                        <tr class="border-t border-p_primary-100 hover:bg-p_secondary-200 hover:text-p_accent-600" >
+                            <td class='col-5 text-p_support-50 '>{{ $show->movie->title }}</td>
+                            <td class='col-6 '>
                                 @php
                                     $showTimes = Showtime::where('show_id', $show->id)->get();
                                 @endphp
 
                                 @foreach ($showtimes as $showtime)
                                     @if ($showtime->show_id===$show->id)
-                                    <a class='btn btn-primary btn-sm m-1' method='get' href='/showtimes/{{$showtime->id}}'> {{$showtime->time}} </a>
+                                    <a class='text-decoration-none bg-p_support-50 text-p_accent-600 p-1 m-1 rounded-3 hover:bg-p_accent-700 hover:text-p_accent-300' method='get' href='/showtimes/{{$showtime->id}}'> {{$showtime->time}} </a>
                                     @endif
                                 @endforeach
                             </td>

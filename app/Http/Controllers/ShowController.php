@@ -17,12 +17,20 @@ class ShowController extends Controller
      */
     public function index()
     {
+        $recommended1 = Movie::all()->random(9)->toArray();
+        $arr_recomm = array_chunk($recommended1, 3);
+
+        $recommended2 = Movie::all()->random(12)->toArray();
+        $arr_recomm2 = array_chunk($recommended2, 4);
+
+        $recommended3 = Movie::all()->random(12)->toArray();
+        $arr_recomm3 = array_chunk($recommended3, 6);
         $rooms = [];
         $shows = Show::where('date',now()->format('Y-m-d'))->get();
         $date = now()->format('Y-m-d');
         //TODO: zaprogramowac logike usuwajaca zarezerwowane juz sale podczas dodawania nowej godziny
 
-        return view('shows.index', ['rooms'=>Room::all(),'movies' => Movie::all(), 'shows' => $shows, 'showtimes' => Showtime::orderBy('show_id')->orderBy('time')->get(), 'date' => $date, 'recommended1' => Movie::all()->random(3)]);
+        return view('shows.index', ['rooms'=>Room::all(),'movies' => Movie::all(), 'shows' => $shows, 'showtimes' => Showtime::orderBy('show_id')->orderBy('time')->get(), 'date' => $date, 'recommended1' => $arr_recomm,'recommended2' => $arr_recomm2,'recommended3' => $arr_recomm3]);
     }
 
     /**
