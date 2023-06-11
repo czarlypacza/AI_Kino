@@ -19,15 +19,15 @@ class CarouselSeeder extends Seeder
         });
         Carousel::insert([
             [
-                'img'=>'civil_war.png',
+                'img'=>'civil_war.jpg',
                 'movie_id'=>1,
             ],
             [
-                'img'=>'suzume.png',
+                'img'=>'suzume.jpg',
                 'movie_id'=>2,
             ],
             [
-                'img'=>'asteriks_i_obelisk.png',
+                'img'=>'asteriks_i_obelisk.jpg',
                 'movie_id'=>4,
             ],
         ]);
