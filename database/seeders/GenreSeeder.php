@@ -21,43 +21,43 @@ class GenreSeeder extends Seeder
         Genre::insert(
             [
                 [
-                    'name' => 'Action'
+                    'name' => 'Akcja'
                 ],
                 [
-                    'name' => 'Adventure'
+                    'name' => 'Przygoda'
                 ],
                 [
-                    'name' => 'Animation'
+                    'name' => 'Animacja'
                 ],
                 [
-                    'name' => 'Biography'
+                    'name' => 'Biografia'
                 ],
                 [
-                    'name' => 'Comedy'
+                    'name' => 'Komedia'
                 ],
                 [
-                    'name' => 'Crime'
+                    'name' => 'Kryminał'
                 ],
                 [
-                    'name' => 'Documentary'
+                    'name' => 'Dokumentalny'
                 ],
                 [
-                    'name' => 'Drama'
+                    'name' => 'Dramat'
                 ],
                 [
-                    'name' => 'Family'
+                    'name' => 'Familijny'
                 ],
                 [
                     'name' => 'Fantasy'
                 ],
                 [
-                    'name' => 'History'
+                    'name' => 'Historia'
                 ],
                 [
                     'name' => 'Horror'
                 ],
                 [
-                    'name' => 'Music'
+                    'name' => 'Muzyka'
                 ],
                 [
                     'name' => 'Musical'
@@ -67,5 +67,6 @@ class GenreSeeder extends Seeder
                 ],
             ]
         );
+
     }
 }

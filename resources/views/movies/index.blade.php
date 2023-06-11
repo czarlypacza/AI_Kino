@@ -249,7 +249,6 @@
                                 <input type="text" class="form-control" name="score" placeholder="Ocena (1-10)"
                                        aria-label="Ocena" aria-describedby="basic-addon1">
                             </div>
-                            {{--here--}}
                             <div class="mb-1">
                                 <label class="form-label">Gatunki filmu:</label>
                                 <div class="row bg-p_primary-500">

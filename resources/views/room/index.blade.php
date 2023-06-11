@@ -67,7 +67,7 @@
                         <button class="accordion-button collapsed p_primary-bg text-p_support-50" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#flush-collapseOne{{$room->id}}" aria-expanded="false"
                                 aria-controls="flush-collapseOne">
-                            Room: {{ $room->id }}
+                            Sala: {{ $room->id }}
                         </button>
                     </h2>
                     <div id="flush-collapseOne{{$room->id}}" class="accordion-collapse collapse bg-p_primary-500 border-b border-t border-p_accent-900"
@@ -75,13 +75,13 @@
                         <div class="accordion-body bg-p_primary-500 text-p_support-50">
 
                             <div class="row mb-3 bg-p_primary-500">
-                                <div class="col col-6 text-center md:text-lg">Rows: {{ $room->rows }}</div>
-                                <div class="col col-6 text-center md:text-lg">Columns: {{ $room->cols }}</div>
+                                <div class="col col-6 text-center md:text-lg">Rzędy: {{ $room->rows }}</div>
+                                <div class="col col-6 text-center md:text-lg">Kolumny: {{ $room->cols }}</div>
                             </div>
                             <div class="row d-flex justify-content-around bg-p_primary-500">
                                 <div class="col col-3 text-center md:text-lg">
                                     <a data-bs-toggle="modal" data-bs-target="#roomsEDIT{{$room->id}}"
-                                       class="btn btn-success">Edit</a>
+                                       class="btn btn-success">Edytuj</a>
                                     <div class="modal fade bg-transparent" id="roomsEDIT{{$room->id}}" tabindex="-1"
                                          aria-hidden="true">
                                         <div class="modal-dialog">
@@ -91,7 +91,7 @@
                                                     @method('PUT')
                                                     <div class="modal-header bg-p_primary-500">
                                                         <h5 class="modal-title text-p_support-50" id="exampleModalLabel">
-                                                            Edit room</h5>
+                                                            Edytuj sale</h5>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -110,7 +110,7 @@
                                                     </div>
                                                     <div class="modal-footer bg-p_primary-500">
                                                         <button type="submit" class="btn btn-primary">
-                                                            Save
+                                                            Zapisz
                                                         </button>
                                                     </div>
 
@@ -124,7 +124,7 @@
                                     <form method="POST" action="{{ route('rooms.destroy',[$room]) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">Delete
+                                        <button class="btn btn-danger" type="submit">Usuń
                                         </button>
                                     </form>
                                 </div>
