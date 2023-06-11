@@ -29,12 +29,7 @@
             <input type="date" class="form-control" id="datepicker" placeholder="Select date"
                    aria-label="Select date" aria-describedby="datepicker" onchange="getMovieShowtimes()"
                    value="{{ $date }}" />
-            <button class="btn btn-outline-secondary" type="button" id="prev-date-btn">
-                <i class="bi bi-arrow-left"></i>
-            </button>
-            <button class="btn btn-outline-secondary" type="button" id="next-date-btn">
-                <i class="bi bi-arrow-right"></i>
-            </button>
+
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">

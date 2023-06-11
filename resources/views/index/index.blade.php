@@ -40,12 +40,6 @@
                 <input type="date" class="form-control " id="datepicker" placeholder="Select date"
                     aria-label="Select date" aria-describedby="datepicker" onchange="getMovieShowtimes()"
                     value="{{ $date }}" />
-                <button class="btn btn-outline-secondary" type="button" id="prev-date-btn">
-                    <i class="bi bi-arrow-left"></i>
-                </button>
-                <button class="btn btn-outline-secondary" type="button" id="next-date-btn">
-                    <i class="bi bi-arrow-right"></i>
-                </button>
             </div>
             <table class="table mt-4 w-100 bg-p_secondary-300 rounded-3">
                 <thead class="text-p_support-50">
