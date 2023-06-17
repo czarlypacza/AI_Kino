@@ -10,6 +10,7 @@ use App\Models\Movie;
 use App\Models\Show;
 use App\Models\Showtime;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -18,7 +19,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        return view('tickets.index', ['tickets'=>Ticket::paginate(15)]);
+        return view('tickets.index', ['tickets'=>Ticket::paginate(15),'transactions'=>DB::table('transactions')->paginate(15)]);
     }
 
     /**
@@ -35,6 +36,20 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         Ticket::create($request->all());
+        $showtime = Showtime::find($request->showtime_id);
+        $user = User::find($request->user_id);
+
+        DB::table('transactions')->insert([
+            'title' =>$showtime->show->movie->title,
+            'date' => $showtime->show->date,
+            'time' => $showtime->time,
+            'room' => $showtime->room->id,
+            'seat' => $request->seat,
+            'row' => $request->row,
+            'price' => $request->price,
+            'email' => $user->email,
+        ]);
+
 
         $ticket = new Ticket($request->all());
         //$ticket->save();
@@ -73,6 +88,7 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+        $ticket->delete();
+        return redirect()->back()->with('status', 'Ticket deleted successfully!');
     }
 }

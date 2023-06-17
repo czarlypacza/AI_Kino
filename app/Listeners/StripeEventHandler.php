@@ -4,10 +4,10 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Events\WebhookReceived;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Models\Event;
 use Illuminate\Support\Facades\Log;
 
 class StripeEventHandler
@@ -52,6 +52,12 @@ class StripeEventHandler
                     if ($ticket->price <= $amountPaid && $ticket->created_at->getTimestamp() <= $chargeTimestamp) {
                         $ticket->status = 'paid';
                         $ticket->save();
+                        $transaction = DB::table('transactions')->where('id', $ticket->id)->first();
+                        if ($transaction) {
+                            $transaction->status = 'paid';
+                            DB::table('transactions')->where('id', $transaction->id)->update(['status' => 'paid']);
+                        }
+
 
                         // Subtract the price of the ticket from the amount paid
                         $amountPaid -= $ticket->price;

@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(CarouselSeeder::class);
         $this->call(TicketSeeder::class);
+        $this->call(TransactionSeeder::class);
 
     }
 }

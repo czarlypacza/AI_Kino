@@ -95,6 +95,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $tickets = $user->tickets;
+        foreach ($tickets as $ticket) {
+            $ticket->email = $ticket->user->email;
+            $ticket->save();
+        }
         $user->delete();
         return redirect()->back();
     }

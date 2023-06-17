@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->foreignIdFor(Showtime::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

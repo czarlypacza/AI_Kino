@@ -10,7 +10,7 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['seat','row','price','showtime_id','user_id'];
+    protected $fillable = ['seat','row','price','showtime_id','user_id','email'];
 
     public function showtime(){
         return $this->belongsTo(Showtime::class);

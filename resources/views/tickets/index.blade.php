@@ -38,43 +38,59 @@
             </tr>
         </thead>
             <tbody class="text-p_support-50">
-            @foreach ($tickets as $ticket)
-                @if((\Illuminate\Support\Facades\Auth::user()->email==$ticket->user->email&&$ticket->status=="paid")||\Illuminate\Support\Facades\Auth::user()->can('is-admin'))
-                <tr>
-                    <th scope="row">{{ $ticket->id }} </th>
-                    <td>{{ $ticket->showtime->show->movie->title }}</td>
-                    <td>{{ $ticket->showtime->show->date }}</td>
-                    <td>{{ $ticket->showtime->time }}</td>
-                    <td>{{ $ticket->showtime->room_id }}</td>
-                    <td>{{ $ticket->row }}</td>
-                    <td>{{ $ticket->seat }}</td>
-                    <td>{{ $ticket->price }}</td>
-                    @can('is-admin')
-                    @if($ticket->user!=null)
-                    <td><a href="">{{ $ticket->user->name }}</a>  </td>
-                    @else
-                        <td>Gość</td>
+            @can('is-admin')
+                @foreach ($transactions as $transaction)
+                            <tr>
+                                <th scope="row">{{ $transaction->id }} </th>
+                                <td>{{ $transaction->title }}</td>
+                                <td>{{ $transaction->date }}</td>
+                                <td>{{ $transaction->time }}</td>
+                                <td>{{ $transaction->room }}</td>
+                                <td>{{ $transaction->row }}</td>
+                                <td>{{ $transaction->seat }}</td>
+                                <td>{{ $transaction->price }}</td>
+                                <td>{{ $transaction->email }}</td>
+                                @if($transaction->status=="pending")
+                                    <td>Oczekujący</td>
+                                @elseif($transaction->status=="paid")
+                                    <td>Opłacony</td>
+                                @endif
+                                @if($tickets->contains('id',$transaction->id))
+                                <td>
+                                    <form method="POST" action="{{ route('tickets.destroy',[$tickets->firstWhere('id', $transaction->id)]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn bg-red-600 btn-sm hover:border-gray-800" type="submit">Usuń</button>
+                                    </form>
+                                </td>
+                                @endif
+                            </tr>
+                @endforeach
+
+            @else
+
+                @foreach($tickets as $ticket)
+                    @if($ticket->user)
+                        @if((\Illuminate\Support\Facades\Auth::user()->email==$ticket->user->email&&$ticket->status=="paid"))
+                            <tr>
+                                <th scope="row">{{ $ticket->id }} </th>
+                                <td>{{ $ticket->showtime->show->movie->title }}</td>
+                                <td>{{ $ticket->showtime->show->date }}</td>
+                                <td>{{ $ticket->showtime->time }}</td>
+                                <td>{{ $ticket->showtime->room_id }}</td>
+                                <td>{{ $ticket->row }}</td>
+                                <td>{{ $ticket->seat }}</td>
+                                <td>{{ $ticket->price }}</td>
+                            </tr>
+                        @endif
                     @endif
-                    @if($ticket->status=="pending")
-                        <td>Oczekujący</td>
-                        @elseif($ticket->status=="paid")
-                        <td>Opłacony</td>
-                    @endif
-                    <td>
-                        <form method="POST" action="{{ route('tickets.destroy',[$ticket]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn bg-red-600 btn-sm hover:border-gray-800" type="submit">Usuń</button>
-                        </form>
-                    </td>
-                    @endcan
-            </tr>
-                @endif
-            @endforeach
+                @endforeach
+
+            @endcan
+
+
             </tbody>
         </table>
-
-
     </div>
 </div>
 <div class="d-flex justify-content-center mb-2">
