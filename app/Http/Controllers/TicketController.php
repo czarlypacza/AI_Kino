@@ -19,7 +19,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        return view('tickets.index', ['tickets'=>Ticket::paginate(15),'transactions'=>DB::table('transactions')->paginate(15)]);
+        return view('tickets.index', ['tickets'=>Ticket::paginate(15),'transactions'=>DB::table('transactions')->orderByDesc('id')->paginate(15)]);
     }
 
     /**
